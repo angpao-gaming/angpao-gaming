@@ -1,1081 +1,302 @@
 <!DOCTYPE html>
-<html lang="th" class="dark">
+<html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANGPAO GAMING REVIEWS - ศูนย์รวมรีวิวเกมไซเบอร์พังก์แห่งอนาคต</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts: Orbitron & Kanit -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Orbitron:wght@400;600;800;900&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        cyber: {
-                            bg: '#0a0c14',
-                            card: '#121624',
-                            border: '#1f293d',
-                            cyan: '#00f3ff',
-                            pink: '#ff0055',
-                            purple: '#9d00ff',
-                            yellow: '#ffe600',
-                            darkglass: 'rgba(13, 15, 23, 0.85)'
-                        }
-                    },
-                    fontFamily: {
-                        orbitron: ['Orbitron', 'sans-serif'],
-                        kanit: ['Kanit', 'sans-serif']
-                    },
-                    boxShadow: {
-                        'neon-cyan': '0 0 15px rgba(0, 243, 255, 0.4), 0 0 30px rgba(0, 243, 255, 0.2)',
-                        'neon-pink': '0 0 15px rgba(255, 0, 85, 0.4), 0 0 30px rgba(255, 0, 85, 0.2)',
-                        'neon-purple': '0 0 15px rgba(157, 0, 255, 0.4), 0 0 30px rgba(157, 0, 255, 0.2)'
-                    }
-                }
-            }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ANGPAO GAMING - Cyberpunk Review Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'cyber-pink': '#ff007f',
+            'cyber-cyan': '#00f3ff',
+            'cyber-dark': '#0d0e15',
+          }
         }
-    </script>
-
-    <style>
-        body {
-            font-family: 'Kanit', sans-serif;
-            background-color: #0a0c14;
-            color: #e2e8f0;
-            overflow-x: hidden;
-        }
-
-        /* Custom Cyberpunk Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0c14;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1f293d;
-            border-radius: 4px;
-            border: 1px solid #00f3ff;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #00f3ff;
-        }
-
-        /* Glitch & Glow Effects */
-        .cyber-tile {
-            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
-        }
-
-        .cyber-border {
-            position: relative;
-        }
-        .cyber-border::before {
-            content: '';
-            position: absolute;
-            top: -1px; left: -1px; right: -1px; bottom: -1px;
-            background: linear-gradient(135deg, #00f3ff, #ff0055, #9d00ff);
-            z-index: -1;
-            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
-            opacity: 0.3;
-            transition: opacity 0.3s ease;
-        }
-        .cyber-border:hover::before {
-            opacity: 1;
-        }
-
-        .glass-panel {
-            background: rgba(18, 22, 36, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 243, 255, 0.15);
-        }
-
-        .text-glow-cyan {
-            text-shadow: 0 0 8px rgba(0, 243, 255, 0.6);
-        }
-        .text-glow-pink {
-            text-shadow: 0 0 8px rgba(255, 0, 85, 0.6);
-        }
-    </style>
-</head>
-<body class="min-h-screen flex flex-col antialiased selection:bg-cyber-pink selection:text-white">
-
-    <div id="toast-container" class="fixed top-20 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
-
-    <header class="sticky top-0 z-40 glass-panel border-b border-cyber-cyan/20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-            
-            <!-- Logo -->
-            <div class="flex items-center gap-3 cursor-pointer" onclick="resetFilters()">
-                <div class="w-10 h-10 bg-gradient-to-tr from-cyber-cyan via-cyber-purple to-cyber-pink rounded-lg flex items-center justify-center shadow-neon-cyan transform rotate-3">
-                    <i class="fa-solid font-orbitron text-xl text-black font-black">A</i>
-                </div>
-                <div>
-                    <span class="font-orbitron font-extrabold text-2xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyber-cyan via-white to-cyber-pink block leading-none">ANGPAO</span>
-                    <span class="font-orbitron text-[10px] text-cyber-cyan tracking-widest block uppercase">Gaming Reviews</span>
-                </div>
-            </div>
-
-            <!-- Navigation Links -->
-            <nav class="hidden md:flex items-center gap-6 font-orbitron text-sm">
-                <button onclick="filterByTab('all')" id="nav-all" class="text-cyber-cyan hover:text-white transition font-medium flex items-center gap-2 py-1 border-b-2 border-cyber-cyan">
-                    <i class="fa-solid fa-house text-xs"></i> หน้าแรก
-                </button>
-                <button onclick="filterByTab('top')" id="nav-top" class="text-gray-400 hover:text-cyber-cyan transition font-medium flex items-center gap-2 py-1 border-b-2 border-transparent">
-                    <i class="fa-solid fa-trophy text-xs text-cyber-yellow"></i> เรตติ้งสูงสุด
-                </button>
-                <button onclick="filterByTab('wishlist')" id="nav-wishlist" class="text-gray-400 hover:text-cyber-pink transition font-medium flex items-center gap-2 py-1 border-b-2 border-transparent relative">
-                    <i class="fa-solid fa-heart text-xs text-cyber-pink"></i> รายการโปรด
-                    <span id="wishlist-count" class="bg-cyber-pink text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold ml-1">0</span>
-                </button>
-            </nav>
-
-            <!-- Quick Search & User Profile Button -->
-            <div class="flex items-center gap-4">
-                <div class="relative hidden sm:block w-48 lg:w-64">
-                    <input type="text" id="nav-search-input" onkeyup="handleQuickSearch(event)" placeholder="ค้นหาชื่อเกม..." class="w-full bg-cyber-bg/80 border border-cyber-border rounded-lg pl-9 pr-4 py-1.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-cyber-cyan transition">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-gray-500"></i>
-                </div>
-
-                <div id="auth-nav-container">
-                    <!-- Populated dynamically by JS -->
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- MAIN CONTENT WRAPPER -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
-
-        <section id="hero-section" class="relative rounded-2xl overflow-hidden border border-cyber-cyan/30 shadow-2xl bg-cyber-card">
-            <div class="absolute inset-0 z-0">
-                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1600&auto=format&fit=crop" class="w-full h-full object-cover object-center opacity-30 filter blur-sm scale-105" alt="Game Background">
-                <div class="absolute inset-0 bg-gradient-to-t from-cyber-bg via-cyber-bg/80 to-transparent"></div>
-                <div class="absolute inset-0 bg-gradient-to-r from-cyber-bg via-cyber-bg/60 to-transparent"></div>
-            </div>
-
-            <div class="relative z-10 p-6 md:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                <div class="lg:col-span-7 space-y-4">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyber-pink/20 border border-cyber-pink text-cyber-pink text-xs font-orbitron font-semibold uppercase tracking-wider">
-                        <i class="fa-solid fa-fire animate-pulse"></i> Game of the Month
-                    </div>
-                    <h1 class="text-3xl md:text-5xl font-black font-orbitron tracking-wide text-white leading-tight">
-                        BLACK MYTH: <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyber-cyan via-cyber-purple to-cyber-pink">WUKONG</span>
-                    </h1>
-                    <p class="text-gray-300 text-sm md:text-base line-clamp-3 leading-relaxed">
-                        การผจญภัยอันทรงพลังในโลกเทพนิยายจีนโบราณ สวมบทบาทเป็น "ผู้ถูกเลือก" ออกเดินทางค้นหาความจริงในตำนานไซอิ๋ว สัมผัสระบบการต่อสู้ที่รวดเร็ว กราฟิกอันวิจิตรระดับ Unreal Engine 5 และเหล่าบอสสุดท้าทาย
-                    </p>
-                    <div class="flex flex-wrap items-center gap-4 pt-2">
-                        <div class="flex items-center gap-2 bg-cyber-bg/80 px-3 py-1.5 rounded-lg border border-cyber-border">
-                            <span class="text-cyber-yellow font-bold text-lg font-orbitron">9.8</span>
-                            <span class="text-gray-400 text-xs">/ 10 (คะแนนเต็ม)</span>
-                        </div>
-                        <div class="flex gap-2">
-                            <span class="px-2.5 py-1 bg-cyber-cyan/10 border border-cyber-cyan/40 text-cyber-cyan text-xs rounded-md">Action RPG</span>
-                            <span class="px-2.5 py-1 bg-cyber-purple/10 border border-cyber-purple/40 text-cyber-purple text-xs rounded-md">PC, PS5</span>
-                        </div>
-                    </div>
-                    <div class="pt-4 flex flex-wrap gap-3">
-                        <button onclick="openReviewModal(1)" class="cyber-tile bg-gradient-to-r from-cyber-cyan to-blue-600 text-black font-orbitron font-bold px-6 py-3 text-sm hover:brightness-110 transition flex items-center gap-2 shadow-neon-cyan">
-                            <i class="fa-solid fa-book-open"></i> อ่านรีวิวฉบับเต็ม
-                        </button>
-                        <button onclick="toggleWishlist(1)" id="hero-wishlist-btn" class="bg-cyber-bg hover:bg-cyber-pink/20 border border-cyber-pink/50 text-white font-orbitron px-5 py-3 text-sm rounded-lg transition flex items-center gap-2">
-                            <i class="fa-regular fa-heart text-cyber-pink"></i> เพิ่มในรายการโปรด
-                        </button>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-5 relative group">
-                    <div class="relative rounded-xl overflow-hidden border-2 border-cyber-cyan/50 shadow-neon-cyan aspect-video bg-black">
-                        <iframe class="w-full h-full" src="https://www.youtube.com/embed/O2nNljv0MOw?autoplay=0&mute=1" title="Trailer Preview" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="glass-panel p-5 rounded-2xl border border-cyber-border space-y-4">
-            <div class="flex flex-col lg:flex-row gap-4 justify-between items-center">
-                <!-- Main Search Bar -->
-                <div class="relative w-full lg:w-96">
-                    <input type="text" id="search-input" oninput="applyFilters()" placeholder="ค้นหารายชื่อเกม, แท็ก หรือแนวเกม..." class="w-full bg-cyber-bg border border-cyber-border rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-cyber-cyan focus:ring-1 focus:ring-cyber-cyan transition">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
-                </div>
-
-                <!-- Filters & Sorting -->
-                <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto justify-between lg:justify-end">
-                    <!-- Platform Selector -->
-                    <div class="flex items-center gap-2">
-                        <label class="text-xs font-orbitron text-gray-400"><i class="fa-solid fa-gamepad"></i> แพลตฟอร์ม:</label>
-                        <select id="platform-filter" onchange="applyFilters()" class="bg-cyber-bg border border-cyber-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-cyber-cyan">
-                            <option value="all">ทั้งหมด (All)</option>
-                            <option value="PC">PC (Windows)</option>
-                            <option value="PS5">PlayStation 5</option>
-                            <option value="Xbox">Xbox Series X/S</option>
-                            <option value="Switch">Nintendo Switch</option>
-                            <option value="Mobile">Mobile</option>
-                        </select>
-                    </div>
-
-                    <!-- Sort Selector -->
-                    <div class="flex items-center gap-2">
-                        <label class="text-xs font-orbitron text-gray-400"><i class="fa-solid fa-arrow-down-short-wide"></i> เรียงตาม:</label>
-                        <select id="sort-filter" onchange="applyFilters()" class="bg-cyber-bg border border-cyber-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-cyber-cyan">
-                            <option value="rating">คะแนนสูงสุด (Highest Score)</option>
-                            <option value="newest">เกมใหม่ล่าสุด (Newest)</option>
-                            <option value="popular">ได้รับความนิยมสูงสุด (Most Popular)</option>
-                            <option value="title">ชื่อเกม A-Z</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Category Pills -->
-            <div class="flex items-center gap-2 overflow-x-auto pb-1 pt-2 scrollbar-none text-xs font-orbitron" id="genre-pills">
-                <button onclick="selectGenre('all')" class="genre-pill active px-4 py-1.5 rounded-full bg-cyber-cyan text-black font-bold whitespace-nowrap transition" data-genre="all">ทั้งหมด</button>
-                <button onclick="selectGenre('Action')" class="genre-pill px-4 py-1.5 rounded-full bg-cyber-card border border-cyber-border hover:border-cyber-cyan text-gray-300 whitespace-nowrap transition" data-genre="Action">Action</button>
-                <button onclick="selectGenre('RPG')" class="genre-pill px-4 py-1.5 rounded-full bg-cyber-card border border-cyber-border hover:border-cyber-cyan text-gray-300 whitespace-nowrap transition" data-genre="RPG">RPG</button>
-                <button onclick="selectGenre('Open World')" class="genre-pill px-4 py-1.5 rounded-full bg-cyber-card border border-cyber-border hover:border-cyber-cyan text-gray-300 whitespace-nowrap transition" data-genre="Open World">Open World</button>
-                <button onclick="selectGenre('Shooter')" class="genre-pill px-4 py-1.5 rounded-full bg-cyber-card border border-cyber-border hover:border-cyber-cyan text-gray-300 whitespace-nowrap transition" data-genre="Shooter">Shooter</button>
-                <button onclick="selectGenre('Horror')" class="genre-pill px-4 py-1.5 rounded-full bg-cyber-card border border-cyber-border hover:border-cyber-cyan text-gray-300 whitespace-nowrap transition" data-genre="Horror">Horror</button>
-                <button onclick="selectGenre('Indie')" class="genre-pill px-4 py-1.5 rounded-full bg-cyber-card border border-cyber-border hover:border-cyber-cyan text-gray-300 whitespace-nowrap transition" data-genre="Indie">Indie</button>
-                <button onclick="selectGenre('Fighting')" class="genre-pill px-4 py-1.5 rounded-full bg-cyber-card border border-cyber-border hover:border-cyber-cyan text-gray-300 whitespace-nowrap transition" data-genre="Fighting">Fighting</button>
-                <button onclick="selectGenre('Sports/Racing')" class="genre-pill px-4 py-1.5 rounded-full bg-cyber-card border border-cyber-border hover:border-cyber-cyan text-gray-300 whitespace-nowrap transition" data-genre="Sports/Racing">Sports / Racing</button>
-                <button onclick="selectGenre('Strategy')" class="genre-pill px-4 py-1.5 rounded-full bg-cyber-card border border-cyber-border hover:border-cyber-cyan text-gray-300 whitespace-nowrap transition" data-genre="Strategy">Strategy</button>
-            </div>
-        </section>
-
-        <div class="flex justify-between items-center">
-            <h2 class="text-2xl font-bold font-orbitron text-white flex items-center gap-3">
-                <span class="w-3 h-3 bg-cyber-cyan rounded-full animate-ping"></span>
-                <span id="grid-title">คลังรีวิวเกมทั้งหมด</span>
-                <span id="game-count" class="text-xs font-normal text-gray-400 bg-cyber-card px-2.5 py-1 rounded-full border border-cyber-border">0 เกม</span>
-            </h2>
-        </div>
-
-        <div id="games-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <!-- Dynamically populated by JS -->
-        </div>
-
-        <!-- Empty State Message -->
-        <div id="empty-state" class="hidden text-center py-16 space-y-4 glass-panel rounded-2xl border border-cyber-border">
-            <i class="fa-solid fa-ghost text-5xl text-cyber-cyan/40"></i>
-            <h3 class="text-xl font-bold font-orbitron text-gray-300">ไม่พบเกมที่คุณค้นหา</h3>
-            <p class="text-gray-500 text-sm">ลองเปลี่ยนคำค้นหา หรือเลือกตัวกรองใหม่อีกครั้ง</p>
-            <button onclick="resetFilters()" class="px-4 py-2 bg-cyber-cyan/20 border border-cyber-cyan text-cyber-cyan text-xs font-orbitron rounded-lg hover:bg-cyber-cyan hover:text-black transition">
-                รีเซ็ตตัวกรองทั้งหมด
-            </button>
-        </div>
-    </main>
-
-    <footer class="glass-panel border-t border-cyber-border mt-16 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-400">
-            <div class="flex items-center gap-2 font-orbitron">
-                <span class="text-cyber-cyan font-bold">ANGPAO GAMING</span> &copy; 2026 - ระบบคลังรีวิวเกมอนาคต
-            </div>
-            <div class="flex gap-6 font-orbitron">
-                <a href="#" class="hover:text-cyber-cyan transition">ข้อตกลงการใช้งาน</a>
-                <a href="#" class="hover:text-cyber-cyan transition">นโยบายความเป็นส่วนตัว</a>
-                <a href="#" class="hover:text-cyber-cyan transition">ติดต่อลงโฆษณา</a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Auth Modal (Login / Register) -->
-    <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
-        <div class="relative w-full max-w-md bg-cyber-card border border-cyber-cyan/40 rounded-2xl p-6 shadow-neon-cyan overflow-hidden cyber-tile">
-            <!-- Close Button -->
-            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-            <!-- Form Header Tab Switcher -->
-            <div class="flex border-b border-cyber-border mb-6 font-orbitron">
-                <button id="tab-login" onclick="switchAuthTab('login')" class="flex-1 pb-3 text-center text-sm font-bold border-b-2 border-cyber-cyan text-cyber-cyan">
-                    เข้าสู่ระบบ
-                </button>
-                <button id="tab-register" onclick="switchAuthTab('register')" class="flex-1 pb-3 text-center text-sm font-bold border-b-2 border-transparent text-gray-400 hover:text-gray-200">
-                    สมัครสมาชิก
-                </button>
-            </div>
-
-            <!-- Login Form -->
-            <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-orbitron text-gray-300 mb-1">ชื่อผู้ใช้ / Username</label>
-                    <input type="text" id="login-username" required placeholder="ป้อนชื่อผู้ใช้ของคุณ..." class="w-full bg-cyber-bg border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyber-cyan">
-                </div>
-                <div>
-                    <label class="block text-xs font-orbitron text-gray-300 mb-1">รหัสผ่าน / Password</label>
-                    <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-cyber-bg border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyber-cyan">
-                </div>
-                <button type="submit" class="w-full py-2.5 bg-gradient-to-r from-cyber-cyan to-blue-600 font-orbitron font-bold text-black text-sm rounded-lg hover:brightness-110 transition shadow-neon-cyan">
-                    เข้าสู่ระบบ ANGPAO
-                </button>
-            </form>
-
-            <!-- Register Form -->
-            <form id="form-register" onsubmit="handleRegister(event)" class="space-y-4 hidden">
-                <div>
-                    <label class="block text-xs font-orbitron text-gray-300 mb-1">ชื่อผู้ใช้ / Username</label>
-                    <input type="text" id="reg-username" required placeholder="ตั้งชื่อผู้ใช้..." class="w-full bg-cyber-bg border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyber-cyan">
-                </div>
-                <div>
-                    <label class="block text-xs font-orbitron text-gray-300 mb-1">อีเมล / Email</label>
-                    <input type="email" id="reg-email" required placeholder="example@angpao.gg" class="w-full bg-cyber-bg border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyber-cyan">
-                </div>
-                <div>
-                    <label class="block text-xs font-orbitron text-gray-300 mb-1">เลือกอวตารของคุณ / Avatar</label>
-                    <div class="flex gap-3 justify-center py-2" id="avatar-selector">
-                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=CyberUser1" class="avatar-opt w-10 h-10 rounded-full border-2 border-cyber-cyan cursor-pointer p-0.5 bg-cyber-bg" onclick="selectAvatar(this, 'CyberUser1')">
-                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=CyberUser2" class="avatar-opt w-10 h-10 rounded-full border-2 border-transparent hover:border-cyber-cyan cursor-pointer p-0.5 bg-cyber-bg" onclick="selectAvatar(this, 'CyberUser2')">
-                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=CyberUser3" class="avatar-opt w-10 h-10 rounded-full border-2 border-transparent hover:border-cyber-cyan cursor-pointer p-0.5 bg-cyber-bg" onclick="selectAvatar(this, 'CyberUser3')">
-                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=CyberUser4" class="avatar-opt w-10 h-10 rounded-full border-2 border-transparent hover:border-cyber-cyan cursor-pointer p-0.5 bg-cyber-bg" onclick="selectAvatar(this, 'CyberUser4')">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-orbitron text-gray-300 mb-1">รหัสผ่าน / Password</label>
-                    <input type="password" id="reg-password" required placeholder="ตั้งรหัสผ่าน..." class="w-full bg-cyber-bg border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyber-cyan">
-                </div>
-                <button type="submit" class="w-full py-2.5 bg-gradient-to-r from-cyber-pink to-cyber-purple font-orbitron font-bold text-white text-sm rounded-lg hover:brightness-110 transition shadow-neon-pink">
-                    ยืนยันสมัครสมาชิก
-                </button>
-            </form>
-
-            <div class="mt-5 text-center pt-4 border-t border-cyber-border">
-                <button onclick="continueAsGuest()" class="text-xs text-gray-400 hover:text-cyber-cyan font-orbitron flex items-center justify-center gap-1 mx-auto">
-                    ข้ามขั้นตอนนี้ (ใช้งานแบบบุคคลทั่วไป) <i class="fa-solid fa-chevron-right text-[10px]"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Review Detail Modal -->
-    <div id="review-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md hidden opacity-0 transition-opacity duration-300 overflow-y-auto">
-        <div class="relative w-full max-w-4xl bg-cyber-card border border-cyber-cyan/40 rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[90vh] flex flex-col">
-            
-            <!-- Sticky Modal Header -->
-            <div class="flex items-center justify-between px-6 py-4 border-b border-cyber-border bg-cyber-bg/90">
-                <div class="flex items-center gap-3">
-                    <span id="modal-rating-badge" class="bg-cyber-cyan text-black font-orbitron font-black text-sm px-2.5 py-1 rounded">9.8</span>
-                    <h3 id="modal-title" class="font-orbitron font-bold text-lg md:text-xl text-white">ชื่อเกม</h3>
-                </div>
-                <button onclick="closeReviewModal()" class="text-gray-400 hover:text-white text-xl">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
-            <!-- Modal Scrollable Body -->
-            <div class="p-6 overflow-y-auto space-y-6 flex-grow">
-                
-                <!-- Banner & Overview -->
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
-                    <img id="modal-image" src="" alt="Game Banner" class="md:col-span-5 rounded-xl object-cover w-full h-56 border border-cyber-border">
-                    <div class="md:col-span-7 space-y-3">
-                        <div id="modal-genres" class="flex flex-wrap gap-2"></div>
-                        <div id="modal-platforms" class="flex flex-wrap gap-2 text-xs text-gray-400"></div>
-                        <p id="modal-description" class="text-gray-300 text-sm leading-relaxed"></p>
-                    </div>
-                </div>
-
-                <!-- Score Breakdowns Radar/Progress Bars -->
-                <div class="bg-cyber-bg p-5 rounded-xl border border-cyber-border space-y-3">
-                    <h4 class="font-orbitron text-sm font-bold text-cyber-cyan flex items-center gap-2">
-                        <i class="fa-solid fa-chart-bar"></i> คะแนนการรีวิวแต่ละด้าน (Score Breakdown)
-                    </h4>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-orbitron">
-                        <div>
-                            <div class="flex justify-between mb-1"><span class="text-gray-300">Graphics (กราฟิก)</span><span id="score-gfx-val" class="text-cyber-cyan">9.5</span></div>
-                            <div class="w-full bg-cyber-card h-2 rounded-full overflow-hidden border border-cyber-border"><div id="score-gfx-bar" class="bg-cyber-cyan h-full" style="width: 95%"></div></div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between mb-1"><span class="text-gray-300">Gameplay (ระบบเกมเพลย์)</span><span id="score-gameplay-val" class="text-cyber-pink">9.8</span></div>
-                            <div class="w-full bg-cyber-card h-2 rounded-full overflow-hidden border border-cyber-border"><div id="score-gameplay-bar" class="bg-cyber-pink h-full" style="width: 98%"></div></div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between mb-1"><span class="text-gray-300">Story & Lore (เนื้อเรื่อง)</span><span id="score-story-val" class="text-cyber-purple">9.0</span></div>
-                            <div class="w-full bg-cyber-card h-2 rounded-full overflow-hidden border border-cyber-border"><div id="score-story-bar" class="bg-cyber-purple h-full" style="width: 90%"></div></div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between mb-1"><span class="text-gray-300">Sound & Music (ดนตรีประกอบ)</span><span id="score-sound-val" class="text-cyber-yellow">9.6</span></div>
-                            <div class="w-full bg-cyber-card h-2 rounded-full overflow-hidden border border-cyber-border"><div id="score-sound-bar" class="bg-cyber-yellow h-full" style="width: 96%"></div></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pros & Cons Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                    <div class="p-4 rounded-xl bg-green-950/20 border border-green-500/30 space-y-2">
-                        <h5 class="font-orbitron font-bold text-green-400 flex items-center gap-2">
-                            <i class="fa-solid fa-circle-check"></i> ข้อดี (Pros)
-                        </h5>
-                        <ul id="modal-pros" class="list-disc list-inside space-y-1 text-gray-300"></ul>
-                    </div>
-                    <div class="p-4 rounded-xl bg-red-950/20 border border-red-500/30 space-y-2">
-                        <h5 class="font-orbitron font-bold text-red-400 flex items-center gap-2">
-                            <i class="fa-solid fa-circle-xmark"></i> ข้อเสีย (Cons)
-                        </h5>
-                        <ul id="modal-cons" class="list-disc list-inside space-y-1 text-gray-300"></ul>
-                    </div>
-                </div>
-
-                <!-- System Requirements Spec Box -->
-                <div class="p-4 rounded-xl bg-cyber-bg border border-cyber-border space-y-2 text-xs">
-                    <h5 class="font-orbitron font-bold text-gray-200 flex items-center gap-2">
-                        <i class="fa-solid fa-microchip text-cyber-cyan"></i> สเปกคอมพิวเตอร์ที่แนะนำ (System Requirements)
-                    </h5>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-400 pt-1">
-                        <div>
-                            <span class="text-cyber-cyan font-semibold block">ขั้นต่ำ (Minimum):</span>
-                            <p id="modal-spec-min">-</p>
-                        </div>
-                        <div>
-                            <span class="text-cyber-pink font-semibold block">ขั้นแนะนำ (Recommended):</span>
-                            <p id="modal-spec-rec">-</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Live User Comment & Rating Section -->
-                <div class="space-y-4 pt-4 border-t border-cyber-border">
-                    <h4 class="font-orbitron font-bold text-white text-sm flex items-center gap-2">
-                        <i class="fa-solid fa-comments text-cyber-pink"></i> ความคิดเห็นและรีวิวจากผู้ใช้งาน (<span id="comment-count">0</span>)
-                    </h4>
-
-                    <!-- Post Comment Form -->
-                    <div id="comment-form-container" class="bg-cyber-bg p-4 rounded-xl border border-cyber-border space-y-3">
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs text-gray-400 font-orbitron">ให้คะแนนเกมนี้:</span>
-                            <div id="star-rating-selector" class="flex text-cyber-yellow text-sm gap-1 cursor-pointer">
-                                <i class="fa-solid fa-star" data-rating="1" onclick="setCommentRating(1)"></i>
-                                <i class="fa-solid fa-star" data-rating="2" onclick="setCommentRating(2)"></i>
-                                <i class="fa-solid fa-star" data-rating="3" onclick="setCommentRating(3)"></i>
-                                <i class="fa-solid fa-star" data-rating="4" onclick="setCommentRating(4)"></i>
-                                <i class="fa-solid fa-star" data-rating="5" onclick="setCommentRating(5)"></i>
-                            </div>
-                        </div>
-                        <textarea id="comment-text-input" rows="3" placeholder="เขียนแสดงความคิดเห็นเกี่ยวกับเกมนี้..." class="w-full bg-cyber-card border border-cyber-border rounded-lg p-3 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-cyber-cyan"></textarea>
-                        <div class="flex justify-end">
-                            <button onclick="postComment()" class="px-4 py-2 bg-cyber-cyan text-black font-orbitron font-bold text-xs rounded-lg hover:brightness-110 transition shadow-neon-cyan">
-                                ส่งความคิดเห็น
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Comments List -->
-                    <div id="modal-comments-list" class="space-y-3 max-h-60 overflow-y-auto pr-1">
-                        <!-- Dynamically generated comments -->
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // --- DATA STORE: Games Database ---
-        const GAMES_DATABASE = [
-            {
-                id: 1,
-                title: "Black Myth: Wukong",
-                genre: ["Action", "RPG"],
-                platforms: ["PC", "PS5"],
-                rating: 9.8,
-                popular: true,
-                releaseYear: 2024,
-                image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop",
-                summary: "การผจญภัยสุดตระการตาในโลกเทพนิยายจีนโบราณ สวมบทพญาวานรออกศึกในมหากาพย์ Unreal Engine 5",
-                pros: ["กราฟิกและอาร์ตสไตล์ระดับท็อป", "ระบบการต่อสู้รวดเร็วและท้าทาย", "ดีไซน์บอสมีเอกลักษณ์เฉพาะตัวสูง"],
-                cons: ["ฉากกำแพงล่องหนมีบ้างบางพื้นที่", "ต้องการสเปกคอมพิวเตอร์ค่อนข้างสูง"],
-                scores: { gfx: 9.9, gameplay: 9.8, story: 9.5, sound: 9.7 },
-                specs: {
-                    min: "Intel Core i5-8400 / GTX 1060 6GB / RAM 16GB",
-                    rec: "Intel Core i7-10700 / RTX 3060 8GB / RAM 16GB"
-                }
-            },
-            {
-                id: 2,
-                title: "Elden Ring: Shadow of the Erdtree",
-                genre: ["Action", "RPG", "Open World"],
-                platforms: ["PC", "PS5", "Xbox"],
-                rating: 9.9,
-                popular: true,
-                releaseYear: 2024,
-                image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=800&auto=format&fit=crop",
-                summary: "ภาคเสริมระดับตำนานแห่งดินแดนเงา เพิ่มเติมความท้าทาย ศัตรูโหดเหี้ยม และอาวุธเวทมนตร์ใหม่ๆ มากมาย",
-                pros: ["การออกแบบแมพซับซ้อนน่าทึ่ง", "บอสยากสะใจสาวก Souls-like", "เพิ่มสายการเล่นใหม่แน่นมาก"],
-                cons: ["ความยากอาจสูงเกินไปสำหรับผู้เล่นใหม่"],
-                scores: { gfx: 9.6, gameplay: 10.0, story: 9.7, sound: 9.8 },
-                specs: {
-                    min: "Intel Core i5-8400 / GTX 1060 3GB / RAM 12GB",
-                    rec: "Intel Core i7-8700K / RTX 2070 8GB / RAM 16GB"
-                }
-            },
-            {
-                id: 3,
-                title: "Cyberpunk 2077: Phantom Liberty",
-                genre: ["Action", "RPG", "Open World"],
-                platforms: ["PC", "PS5", "Xbox"],
-                rating: 9.5,
-                popular: true,
-                releaseYear: 2023,
-                image: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=800&auto=format&fit=crop",
-                summary: "สายลับทริลเลอร์กอบกู้เมือง Night City พร้อมระบบการต่อสู้ ปรับแต่งทักษะ และกราฟิกที่แก้ไขใหม่สมบูรณ์แบบ",
-                pros: ["เนื้อเรื่องเข้มข้นสไตล์สายลับ", "การประมวลผลแสง Ray Tracing สวยงดงาม", "ตัวละครมีมิติน่าติดตาม"],
-                cons: ["กินสเปกเครื่องสูงมาก"],
-                scores: { gfx: 9.9, gameplay: 9.4, story: 9.6, sound: 9.5 },
-                specs: {
-                    min: "Intel Core i7-6700 / GTX 1060 6GB / RAM 12GB",
-                    rec: "Intel Core i7-12700 / RTX 3080 10GB / RAM 16GB"
-                }
-            },
-            {
-                id: 4,
-                title: "Helldivers 2",
-                genre: ["Action", "Shooter"],
-                platforms: ["PC", "PS5"],
-                rating: 9.2,
-                popular: true,
-                releaseYear: 2024,
-                image: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=800&auto=format&fit=crop",
-                summary: "ยิงแหลกแจกความประชาธิปไตย ร่วมมือกับเพื่อนในทีมสู้กับฝูงแมลงและหุ่นยนต์มฤตยู",
-                pros: ["ระบบ Co-op สนุกฮาและเร้าใจมาก", "ฟิสิกส์ระเบิดสะใจ", "อัปเดตคอนเทนต์ต่อเนื่อง"],
-                cons: ["มีปัญหาเซิร์ฟเวอร์บ้างช่วงคนเยอะ"],
-                scores: { gfx: 9.0, gameplay: 9.6, story: 8.0, sound: 9.3 },
-                specs: {
-                    min: "Intel Core i7-4790K / GTX 1050 Ti / RAM 8GB",
-                    rec: "Intel Core i7-9700K / RTX 2060 SUPER / RAM 16GB"
-                }
-            },
-            {
-                id: 5,
-                title: "Final Fantasy VII Rebirth",
-                genre: ["RPG", "Action"],
-                platforms: ["PS5"],
-                rating: 9.6,
-                popular: true,
-                releaseYear: 2024,
-                image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
-                summary: "การเดินทางของ คลาวด์ และพรรคพวกท่องโลกกว้างมินิเกมล้นทะลักและฉากต่อสู้ที่ตื่นเต้นที่สุด",
-                pros: ["มินิเกมและกิจกรรมอัดแน่น", "ระบบต่อสู้ผสมสแตรทิจีอย่างลงตัว", "เพลงประกอบยอดเยี่ยม"],
-                cons: ["มินิเกมบางอันบังคับเล่นจนน่ารำคาญ"],
-                scores: { gfx: 9.5, gameplay: 9.7, story: 9.5, sound: 9.9 },
-                specs: {
-                    min: "Exclusive for PlayStation 5",
-                    rec: "Exclusive for PlayStation 5"
-                }
-            },
-            {
-                id: 6,
-                title: "Hades II",
-                genre: ["Action", "Indie"],
-                platforms: ["PC"],
-                rating: 9.4,
-                popular: false,
-                releaseYear: 2024,
-                image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800&auto=format&fit=crop",
-                summary: "สวมบทเจ้านครใต้ภพ Melinoë ใช้เวทมนตร์ตะลุยดันเจียนสไตล์ Roguelike สุดรวดเร็ว",
-                pros: ["เกมเพลย์ลื่นไหลเสพติดง่าย", "เพลงประกอบตื่นเต้น", "ดีไซน์ตัวละครและบทพูดมีเสน่ห์"],
-                cons: ["ยังอยู่ในช่วง Early Access"],
-                scores: { gfx: 9.2, gameplay: 9.8, story: 9.1, sound: 9.6 },
-                specs: {
-                    min: "Dual Core 2.4 GHz / GTX 950 / RAM 8GB",
-                    rec: "Quad Core 3.0 GHz / GTX 1060 / RAM 16GB"
-                }
-            }
-        ];
-
-        // --- STATE MANAGEMENT ---
-        let currentTab = 'all'; // 'all', 'top', 'wishlist'
-        let currentGenre = 'all';
-        let currentUser = null;
-        let selectedAvatar = 'CyberUser1';
-        let currentCommentRating = 5;
-        let wishlist = JSON.parse(localStorage.getItem('angpao_wishlist')) || [];
-        let userComments = JSON.parse(localStorage.getItem('angpao_comments')) || {};
-
-        // --- INITIALIZATION ---
-        document.addEventListener('DOMContentLoaded', () => {
-            checkUserSession();
-            applyFilters();
-            updateWishlistBadge();
-        });
-
-        // --- USER AUTHENTICATION HANDLERS ---
-        function checkUserSession() {
-            const savedUser = localStorage.getItem('angpao_user');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-            }
-            renderAuthNav();
-// เช็กว่าคนที่ล็อกอินอยู่ชื่อ admin หรือไม่
-const adminBtn = document.getElementById('adminBtn');
-if (adminBtn) {
-    adminBtn.style.display = (currentUser && currentUser.username === 'admin') ? 'block' : 'none';
-}
-        }
-
-        function renderAuthNav() {
-            const container = document.getElementById('auth-nav-container');
-            if (currentUser) {
-                container.innerHTML = `
-                    <div class="flex items-center gap-3 bg-cyber-card border border-cyber-cyan/40 px-3 py-1.5 rounded-xl shadow-neon-cyan">
-                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=${currentUser.avatar || 'CyberUser1'}" class="w-7 h-7 rounded-full bg-cyber-bg border border-cyber-cyan">
-                        <span class="text-xs font-orbitron font-bold text-cyber-cyan truncate max-w-[100px]">${currentUser.username}</span>
-                        <button onclick="handleLogout()" title="ออกจากระบบ" class="text-gray-400 hover:text-cyber-pink text-xs ml-1 transition">
-                            <i class="fa-solid fa-right-from-bracket"></i>
-                        </button>
-                    </div>
-                `;
-            } else {
-                container.innerHTML = `
-                    <button onclick="openAuthModal('login')" class="cyber-tile bg-cyber-cyan text-black font-orbitron font-bold px-4 py-2 text-xs hover:brightness-110 transition flex items-center gap-2 shadow-neon-cyan">
-                        <i class="fa-solid fa-user"></i> เข้าสู่ระบบ / สมัคร
-                    </button>
-                `;
-            }
-        }
-
-        function openAuthModal(defaultTab = 'login') {
-            switchAuthTab(defaultTab);
-            const modal = document.getElementById('auth-modal');
-            modal.classList.remove('hidden');
-            setTimeout(() => modal.classList.remove('opacity-0'), 10);
-        }
-
-        function closeAuthModal() {
-            const modal = document.getElementById('auth-modal');
-            modal.classList.add('opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 300);
-        }
-
-        function switchAuthTab(tab) {
-            const tabLogin = document.getElementById('tab-login');
-            const tabReg = document.getElementById('tab-register');
-            const formLogin = document.getElementById('form-login');
-            const formReg = document.getElementById('form-register');
-
-            if (tab === 'login') {
-                tabLogin.className = "flex-1 pb-3 text-center text-sm font-bold border-b-2 border-cyber-cyan text-cyber-cyan";
-                tabReg.className = "flex-1 pb-3 text-center text-sm font-bold border-b-2 border-transparent text-gray-400 hover:text-gray-200";
-                formLogin.classList.remove('hidden');
-                formReg.classList.add('hidden');
-            } else {
-                tabReg.className = "flex-1 pb-3 text-center text-sm font-bold border-b-2 border-cyber-pink text-cyber-pink";
-                tabLogin.className = "flex-1 pb-3 text-center text-sm font-bold border-b-2 border-transparent text-gray-400 hover:text-gray-200";
-                formReg.classList.remove('hidden');
-                formLogin.classList.add('hidden');
-            }
-        }
-
-        function selectAvatar(el, avatarSeed) {
-            document.querySelectorAll('.avatar-opt').forEach(img => img.classList.replace('border-cyber-cyan', 'border-transparent'));
-            el.classList.replace('border-transparent', 'border-cyber-cyan');
-            selectedAvatar = avatarSeed;
-        }
-
-        function handleLogin(e) {
-            e.preventDefault();
-            const username = document.getElementById('login-username').value.trim();
-            if (!username) return;
-
-            currentUser = { username: username, avatar: selectedAvatar };
-
-// 1. ดึงรายชื่อผู้ใช้ทั้งหมดที่มีอยู่เดิมออกมาก่อน (ถ้าไม่มีให้ใช้ Array ว่าง [])
-let users = JSON.parse(localStorage.getItem('angpao_users')) || [];
-
-// 2. เพิ่มผู้ใช้ใหม่ลงไปในรายการ
-users.push(currentUser);
-
-// 3. บันทึกรายชื่อผู้ใช้ทั้งหมดลงใน 'angpao_users'
-localStorage.setItem('angpao_users', JSON.stringify(users));
-
-// 4. บันทึกผู้ใช้ปัจจุบันที่กำลังล็อกอินอยู่
-localStorage.setItem('angpao_user', JSON.stringify(currentUser));
-            renderAuthNav();
-            closeAuthModal();
-            showToast(`ยินดีต้อนรับกลับมา, ${username}!`, 'success');
-        }
-
-        function handleRegister(e) {
-            e.preventDefault();
-            const username = document.getElementById('reg-username').value.trim();
-            if (!username) return;
-
-            currentUser = { username: username, avatar: selectedAvatar };
-            localStorage.setItem('angpao_user', JSON.stringify(currentUser));
-            renderAuthNav();
-            closeAuthModal();
-            showToast(`ลงทะเบียนสำเร็จ! ยินดีต้อนรับ ${username}`, 'success');
-        }
-
-        function handleLogout() {
-            currentUser = null;
-            localStorage.removeItem('angpao_user');
-            renderAuthNav();
-            showToast('ออกจากระบบเรียบร้อยแล้ว', 'info');
-        }
-
-        function continueAsGuest() {
-            closeAuthModal();
-            showToast('เข้าใช้งานในฐานะบุคคลทั่วไป', 'info');
-        }
-
-        // --- FILTER & RENDER LOGIC ---
-        function filterByTab(tab) {
-            currentTab = tab;
-            document.querySelectorAll('nav button').forEach(b => {
-                b.classList.remove('text-cyber-cyan', 'border-cyber-cyan');
-                b.classList.add('text-gray-400', 'border-transparent');
-            });
-            
-            const activeNav = document.getElementById(`nav-${tab}`);
-            if (activeNav) {
-                activeNav.classList.remove('text-gray-400', 'border-transparent');
-                activeNav.classList.add('text-cyber-cyan', 'border-cyber-cyan');
-            }
-
-            const gridTitle = document.getElementById('grid-title');
-            if (tab === 'all') gridTitle.textContent = "คลังรีวิวเกมทั้งหมด";
-            if (tab === 'top') gridTitle.textContent = "อันดับเกมเรตติ้งสูงสุด";
-            if (tab === 'wishlist') gridTitle.textContent = "รายการเกมโปรดของคุณ";
-
-            applyFilters();
-        }
-
-        function selectGenre(genre) {
-            currentGenre = genre;
-            document.querySelectorAll('.genre-pill').forEach(btn => {
-                if (btn.dataset.genre === genre) {
-                    btn.className = "genre-pill active px-4 py-1.5 rounded-full bg-cyber-cyan text-black font-bold whitespace-nowrap transition";
-                } else {
-                    btn.className = "genre-pill px-4 py-1.5 rounded-full bg-cyber-card border border-cyber-border hover:border-cyber-cyan text-gray-300 whitespace-nowrap transition";
-                }
-            });
-            applyFilters();
-        }
-
-        function applyFilters() {
-            const query = document.getElementById('search-input').value.toLowerCase().trim();
-            const platform = document.getElementById('platform-filter').value;
-            const sortBy = document.getElementById('sort-filter').value;
-
-            let filtered = GAMES_DATABASE.filter(game => {
-                // Tab Filter
-                if (currentTab === 'top' && game.rating < 9.5) return false;
-                if (currentTab === 'wishlist' && !wishlist.includes(game.id)) return false;
-
-                // Search Query Filter
-                if (query) {
-                    const matchTitle = game.title.toLowerCase().includes(query);
-                    const matchSummary = game.summary.toLowerCase().includes(query);
-                    const matchGenre = game.genre.some(g => g.toLowerCase().includes(query));
-                    if (!matchTitle && !matchSummary && !matchGenre) return false;
-                }
-
-                // Genre Filter
-                if (currentGenre !== 'all' && !game.genre.includes(currentGenre)) {
-                    return false;
-                }
-
-                // Platform Filter
-                if (platform !== 'all' && !game.platforms.includes(platform)) {
-                    return false;
-                }
-
-                return true;
-            });
-
-            // Sorting
-            filtered.sort((a, b) => {
-                if (sortBy === 'rating') return b.rating - a.rating;
-                if (sortBy === 'newest') return b.releaseYear - a.releaseYear;
-                if (sortBy === 'popular') return (b.popular === a.popular) ? 0 : b.popular ? 1 : -1;
-                if (sortBy === 'title') return a.title.localeCompare(b.title);
-                return 0;
-            });
-
-            renderGamesGrid(filtered);
-        }
-
-        function handleQuickSearch(e) {
-            const val = e.target.value;
-            document.getElementById('search-input').value = val;
-            applyFilters();
-        }
-
-        function resetFilters() {
-            document.getElementById('search-input').value = '';
-            document.getElementById('nav-search-input').value = '';
-            document.getElementById('platform-filter').value = 'all';
-            document.getElementById('sort-filter').value = 'rating';
-            selectGenre('all');
-            filterByTab('all');
-        }
-
-        function renderGamesGrid(games) {
-            const grid = document.getElementById('games-grid');
-            const emptyState = document.getElementById('empty-state');
-            document.getElementById('game-count').textContent = `${games.length} เกม`;
-
-            if (games.length === 0) {
-                grid.innerHTML = '';
-                emptyState.classList.remove('hidden');
-                return;
-            }
-
-            emptyState.classList.add('hidden');
-            grid.innerHTML = games.map(game => {
-                const isSaved = wishlist.includes(game.id);
-                return `
-                    <div class="cyber-tile glass-panel rounded-xl overflow-hidden border border-cyber-border hover:border-cyber-cyan transition duration-300 flex flex-col group hover:-translate-y-1 shadow-lg hover:shadow-neon-cyan">
-                        <div class="relative h-44 overflow-hidden bg-black">
-                            <img src="${game.image}" alt="${game.title}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-90">
-                            <div class="absolute top-3 right-3 bg-cyber-bg/90 backdrop-blur-md px-2.5 py-1 rounded-md border border-cyber-cyan/30 flex items-center gap-1 font-orbitron font-bold text-xs text-cyber-yellow">
-                                <i class="fa-solid fa-star text-[10px]"></i> ${game.rating}
-                            </div>
-                            <button onclick="toggleWishlist(${game.id})" class="absolute top-3 left-3 w-8 h-8 rounded-full bg-cyber-bg/80 backdrop-blur-md border border-cyber-border flex items-center justify-center text-white hover:text-cyber-pink transition">
-                                <i class="${isSaved ? 'fa-solid text-cyber-pink' : 'fa-regular'} fa-heart text-sm"></i>
-                            </button>
-                        </div>
-
-                        <div class="p-4 flex-grow flex flex-col justify-between space-y-3">
-                            <div>
-                                <div class="flex flex-wrap gap-1 mb-2">
-                                    ${game.genre.map(g => `<span class="text-[10px] font-orbitron px-2 py-0.5 rounded bg-cyber-bg text-cyber-cyan border border-cyber-border">${g}</span>`).join('')}
-                                </div>
-                                <h3 class="font-orbitron font-bold text-base text-white group-hover:text-cyber-cyan transition line-clamp-1">${game.title}</h3>
-                                <p class="text-xs text-gray-400 mt-1 line-clamp-2 leading-relaxed">${game.summary}</p>
-                            </div>
-
-                            <div class="pt-2 border-t border-cyber-border/50 flex items-center justify-between">
-                                <span class="text-[11px] font-orbitron text-gray-500">${game.platforms.join(', ')}</span>
-                                <button onclick="openReviewModal(${game.id})" class="text-xs font-orbitron font-bold text-cyber-cyan hover:text-white flex items-center gap-1 transition">
-                                    อ่านรีวิว <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // --- WISHLIST MANAGEMENT ---
-        function toggleWishlist(gameId) {
-            const index = wishlist.indexOf(gameId);
-            if (index > -1) {
-                wishlist.splice(index, 1);
-                showToast('ลบออกจากรายการโปรดแล้ว', 'info');
-            } else {
-                wishlist.push(gameId);
-                showToast('เพิ่มเข้าในรายการโปรดเรียบร้อย', 'success');
-            }
-            localStorage.setItem('angpao_wishlist', JSON.stringify(wishlist));
-            updateWishlistBadge();
-            applyFilters();
-        }
-
-        function updateWishlistBadge() {
-            document.getElementById('wishlist-count').textContent = wishlist.length;
-        }
-
-        // --- REVIEW MODAL & COMMENTS ---
-        let activeModalGameId = null;
-
-        function openReviewModal(gameId) {
-            const game = GAMES_DATABASE.find(g => g.id === gameId);
-            if (!game) return;
-
-            activeModalGameId = gameId;
-
-            document.getElementById('modal-title').textContent = game.title;
-            document.getElementById('modal-rating-badge').textContent = game.rating;
-            document.getElementById('modal-image').src = game.image;
-            document.getElementById('modal-description').textContent = game.summary;
-
-            // Genres & Platforms
-            document.getElementById('modal-genres').innerHTML = game.genre.map(g => `<span class="px-2.5 py-1 bg-cyber-cyan/10 border border-cyber-cyan/40 text-cyber-cyan text-xs font-orbitron rounded-md">${g}</span>`).join('');
-            document.getElementById('modal-platforms').innerHTML = game.platforms.map(p => `<span class="px-2 py-0.5 bg-cyber-card border border-cyber-border text-gray-300 text-[11px] font-orbitron rounded"><i class="fa-solid fa-gamepad text-[10px]"></i> ${p}</span>`).join('');
-
-            // Scores
-            document.getElementById('score-gfx-val').textContent = game.scores.gfx;
-            document.getElementById('score-gfx-bar').style.width = `${game.scores.gfx * 10}%`;
-            document.getElementById('score-gameplay-val').textContent = game.scores.gameplay;
-            document.getElementById('score-gameplay-bar').style.width = `${game.scores.gameplay * 10}%`;
-            document.getElementById('score-story-val').textContent = game.scores.story;
-            document.getElementById('score-story-bar').style.width = `${game.scores.story * 10}%`;
-            document.getElementById('score-sound-val').textContent = game.scores.sound;
-            document.getElementById('score-sound-bar').style.width = `${game.scores.sound * 10}%`;
-
-            // Pros & Cons
-            document.getElementById('modal-pros').innerHTML = game.pros.map(p => `<li>${p}</li>`).join('');
-            document.getElementById('modal-cons').innerHTML = game.cons.map(c => `<li>${c}</li>`).join('');
-
-            // Specs
-            document.getElementById('modal-spec-min').textContent = game.specs.min;
-            document.getElementById('modal-spec-rec').textContent = game.specs.rec;
-
-            // Load Comments
-            renderComments(gameId);
-
-            const modal = document.getElementById('review-modal');
-            modal.classList.remove('hidden');
-            setTimeout(() => modal.classList.remove('opacity-0'), 10);
-        }
-
-        function closeReviewModal() {
-            const modal = document.getElementById('review-modal');
-            modal.classList.add('opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 300);
-            activeModalGameId = null;
-        }
-
-        function setCommentRating(rating) {
-            currentCommentRating = rating;
-            const stars = document.querySelectorAll('#star-rating-selector i');
-            stars.forEach((star, idx) => {
-                if (idx < rating) {
-                    star.className = "fa-solid fa-star text-cyber-yellow";
-                } else {
-                    star.className = "fa-regular fa-star text-gray-600";
-                }
-            });
-        }
-
-        function postComment() {
-            if (!activeModalGameId) return;
-
-            const textInput = document.getElementById('comment-text-input');
-            const text = textInput.value.trim();
-
-            if (!text) {
-                showToast('กรุณากรอกข้อความแสดงความคิดเห็น', 'warning');
-                return;
-            }
-
-            const authorName = currentUser ? currentUser.username : "ผู้ใช้งานทั่วไป";
-            const authorAvatar = currentUser ? currentUser.avatar : "CyberUser1";
-
-            const newComment = {
-                id: Date.now(),
-                author: authorName,
-                avatar: authorAvatar,
-                rating: currentCommentRating,
-                text: text,
-                date: new Date().toLocaleDateString('th-TH', { hour: '2-digit', minute: '2-digit' })
-            };
-
-            if (!userComments[activeModalGameId]) {
-                userComments[activeModalGameId] = [];
-            }
-
-            userComments[activeModalGameId].unshift(newComment);
-            localStorage.setItem('angpao_comments', JSON.stringify(userComments));
-
-            textInput.value = '';
-            setCommentRating(5);
-            renderComments(activeModalGameId);
-            showToast('ส่งความคิดเห็นสำเร็จแล้ว!', 'success');
-        }
-
-        function renderComments(gameId) {
-            const list = document.getElementById('modal-comments-list');
-            const comments = userComments[gameId] || [];
-            document.getElementById('comment-count').textContent = comments.length;
-
-            if (comments.length === 0) {
-                list.innerHTML = `<p class="text-xs text-gray-500 italic py-2">ยังไม่มีความคิดเห็นสำหรับเกมนี้ เป็นคนแรกที่แสดงความคิดเห็น!</p>`;
-                return;
-            }
-
-            list.innerHTML = comments.map(c => `
-                <div class="p-3 rounded-lg bg-cyber-bg border border-cyber-border space-y-1">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=${c.avatar}" class="w-6 h-6 rounded-full bg-cyber-card border border-cyber-cyan">
-                            <span class="text-xs font-orbitron font-bold text-gray-200">${c.author}</span>
-                            <span class="text-[10px] text-gray-500">${c.date}</span>
-                        </div>
-                        <div class="flex text-cyber-yellow text-[10px]">
-                            ${Array.from({length: 5}).map((_, i) => `<i class="${i < c.rating ? 'fa-solid' : 'fa-regular'} fa-star"></i>`).join('')}
-                        </div>
-                    </div>
-                    <p class="text-xs text-gray-300 pl-8 leading-relaxed">${c.text}</p>
-                </div>
-            `).join('');
-        }
-
-        // --- TOAST NOTIFICATION UTILITY ---
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            
-            let borderColor = 'border-cyber-cyan';
-            let icon = 'fa-circle-info text-cyber-cyan';
-
-            if (type === 'success') {
-                borderColor = 'border-green-500';
-                icon = 'fa-circle-check text-green-400';
-            } else if (type === 'warning') {
-                borderColor = 'border-cyber-yellow';
-                icon = 'fa-triangle-exclamation text-cyber-yellow';
-            }
-
-            toast.className = `glass-panel border ${borderColor} px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-xs font-orbitron text-white transform transition-all duration-300 opacity-0 translate-y-2 pointer-events-auto min-w-[250px]`;
-            toast.innerHTML = `<i class="fa-solid ${icon} text-base"></i> <span>${message}</span>`;
-
-            container.appendChild(toast);
-
-            setTimeout(() => {
-                toast.classList.remove('opacity-0', 'translate-y-2');
-            }, 10);
-
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-    </script>
-<button onclick="checkAdminPassword()" 
-        style="position: fixed; bottom: 10px; right: 10px; opacity: 0.5; z-index: 9999;"
-        class="bg-gray-800 text-white px-3 py-1 rounded-lg text-xs">
-  🔑 ดูรายชื่อผู้สมัคร
-</button>
-
-<script>
-function checkAdminPassword() {
-    const password = prompt("กรุณากรอกรหัสผ่าน Admin เพื่อดูข้อมูล:");
-    // ตั้งรหัสผ่านตรงนี้ (เช่น asd)
-    if (password === "asd") { 
-        alert(localStorage.getItem('angpao_users') || 'ยังไม่มีใครสมัคร');
-    } else if (password !== null) {
-        alert("รหัสผ่านไม่ถูกต้อง!");
+      }
     }
-}
-</script>
-</button>
-    <!-- ส่วนข้อมูลติดต่อแอดมิน (Footer) -->
-<footer class="bg-gray-900 border-t border-gray-800 text-gray-300 py-8 mt-12">
-  <div class="max-w-6xl mx-auto px-4 text-center">
-    <h3 class="text-lg font-bold text-cyber-cyan mb-2">💬 ติดต่อแอดมิน / สนับสนุน</h3>
-    <p class="text-sm text-gray-400 mb-4">หากมีปัญหาในการใช้งาน หรือสอบถามเพิ่มเติม ติดต่อเราได้ทาง:</p>
-    
-    <div class="flex justify-center gap-4 flex-wrap">
-      <!-- ปุ่ม Facebook -->
-      <a href="https://www.facebook.com/ANTX28" target="_blank" 
-         class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-all shadow-lg">
-        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-        Facebook แอดมิน
-      </a>
+  </script>
+</head>
+<body class="bg-cyber-dark text-gray-100 min-h-screen flex flex-col font-sans">
 
-      <!-- ปุ่ม Discord (ถ้ามี) -->
-      <a href="https://discord.com/users/634484388817666050" target="_blank" 
-         class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-
+  <!-- NAVBAR -->
+  <nav class="bg-gray-900/90 backdrop-blur border-b border-cyber-pink/30 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <span class="text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyber-pink to-cyber-cyan">
+          ANGPAO GAMING
+        </span>
+      </div>
+      <div id="authNav" class="flex items-center gap-3">
+        <!-- จะถูกแสดงผลอัตโนมัติด้วย JavaScript -->
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full">
+    
+    <!-- ADMIN PANEL (จะแสดงเฉพาะเมื่อล็อกอินด้วยชื่อ admin) -->
+    <div id="adminPanel" class="hidden bg-gray-900 border-2 border-cyber-pink p-5 rounded-xl mb-8 shadow-2xl">
+      <div class="flex flex-wrap justify-between items-center gap-4 mb-4">
+        <div>
+          <h3 class="font-black text-cyber-pink text-xl flex items-center gap-2">
+            ⚙️ แผงควบคุมแอดมิน (Admin Control Panel)
+          </h3>
+          <p class="text-xs text-gray-400">คุณเข้าสู่ระบบในสิทธิ์ Admin สามารถจัดการระบบและดูรายชื่อสมาชิกได้</p>
+        </div>
+        <button onclick="viewUsersList()" 
+                class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-lg transition-all flex items-center gap-2">
+          🔑 ดูรายชื่อสมาชิกทั้งหมด
+        </button>
+      </div>
+      <div class="flex gap-3 border-t border-gray-800 pt-4">
+        <button onclick="alert('ระบบเพิ่มเกมกำลังทำงาน คุณสามารถเชื่อมต่อ Modal เพิ่มเกมตรงนี้ได้')" 
+                class="bg-cyber-pink hover:bg-pink-600 text-white px-4 py-2 rounded-lg font-bold text-sm shadow transition-all">
+          ➕ เพิ่มเกมใหม่
+        </button>
+      </div>
+    </div>
+
+    <!-- MAIN GAME LISTING -->
+    <section>
+      <h2 class="text-2xl font-extrabold text-cyber-cyan mb-6 border-l-4 border-cyber-cyan pl-3">
+        🎮 รีวิวเกมยอดนิยม
+      </h2>
+      
+      <div id="gameGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- ตัวอย่างการ์ดเกม -->
+        <div class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden shadow-lg hover:border-cyber-cyan transition-all">
+          <div class="h-48 bg-gray-800 relative flex items-center justify-center text-gray-500 font-bold">
+            [รูปภาพปกเกม Cyberpunk 2077]
+          </div>
+          <div class="p-5">
+            <h3 class="font-bold text-lg text-white mb-2">Cyberpunk 2077</h3>
+            <p class="text-gray-400 text-sm mb-4">ท่องไปใน Night City เมืองแห่งอนาคตที่เต็มไปด้วยแสงไฟนีออนและการดัดแปลงร่างกาย</p>
+            
+            <!-- ส่วนการโต้ตอบของผู้ใช้ -->
+            <div class="flex justify-between items-center border-t border-gray-800 pt-4">
+              <button onclick="toggleFavorite(this)" class="text-gray-400 hover:text-cyber-pink text-sm flex items-center gap-1">
+                ❤️ <span class="fav-count">12</span>
+              </button>
+              <button onclick="openReviewModal('Cyberpunk 2077')" class="bg-cyber-cyan/20 hover:bg-cyber-cyan/30 text-cyber-cyan px-3 py-1.5 rounded-lg text-xs font-bold transition-all">
+                💬 อ่าน/เขียนรีวิว
+              </button>
+            </div>
+            
+            <!-- ปุ่มจัดการลบเกม (จะแสดงเฉพาะ Admin) -->
+            <div class="admin-only hidden border-t border-red-900/50 mt-3 pt-2 text-right">
+              <button onclick="deleteGame(this)" class="text-red-400 hover:text-red-300 text-xs font-bold">
+                🗑️ ลบเกมนี้ (Admin Only)
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- AUTH MODAL (LOGIN / REGISTER) -->
+  <div id="authModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center z-50 p-4">
+    <div class="bg-gray-900 border border-cyber-cyan p-6 rounded-2xl w-full max-w-md relative shadow-2xl">
+      <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">✕</button>
+      
+      <!-- TABS -->
+      <div class="flex border-b border-gray-800 mb-6">
+        <button id="tabLogin" onclick="switchAuthTab('login')" class="flex-1 pb-3 text-center font-bold border-b-2 border-cyber-cyan text-cyber-cyan">
+          เข้าสู่ระบบ
+        </button>
+        <button id="tabReg" onclick="switchAuthTab('reg')" class="flex-1 pb-3 text-center font-bold border-b-2 border-transparent text-gray-400 hover:text-gray-200">
+          สมัครสมาชิก
+        </button>
+      </div>
+
+      <!-- FORM LOGIN -->
+      <form id="formLogin" onsubmit="handleLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-gray-400 mb-1">ชื่อผู้ใช้งาน</label>
+          <input type="text" id="login-username" required placeholder="ใส่ชื่อผู้ใช้ (ใช้ 'admin' เพื่อเข้าสิทธิ์แอดมิน)" 
+                 class="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyber-cyan text-sm">
+        </div>
+        <button type="submit" class="w-full bg-cyber-cyan hover:bg-cyan-400 text-gray-950 font-black py-2.5 rounded-lg shadow-lg transition-all">
+          เข้าสู่ระบบ
+        </button>
+      </form>
+
+      <!-- FORM REGISTER -->
+      <form id="formReg" onsubmit="handleRegister(event)" class="space-y-4 hidden">
+        <div>
+          <label class="block text-xs font-bold text-gray-400 mb-1">ชื่อผู้ใช้งานใหม่</label>
+          <input type="text" id="reg-username" required placeholder="ตั้งชื่อผู้ใช้ของคุณ" 
+                 class="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyber-pink text-sm">
+        </div>
+        <button type="submit" class="w-full bg-cyber-pink hover:bg-pink-600 text-white font-black py-2.5 rounded-lg shadow-lg transition-all">
+          ยืนยันการสมัครสมาชิก
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER & CONTACT SECTION -->
+  <footer class="bg-gray-900 border-t border-gray-800 text-gray-300 py-8 mt-12">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h3 class="text-lg font-bold text-cyber-cyan mb-2">💬 ติดต่อแอดมิน / สอบถามเพิ่มเติม</h3>
+      <p class="text-xs text-gray-400 mb-4">หากพบปัญหาในการใช้งาน สามารถติดต่อแอดมิน ANGPAO GAMING ได้ทางช่องทางด้านล่าง</p>
+      
+      <div class="flex justify-center gap-4 flex-wrap">
+        <!-- ปุ่ม Facebook -->
+        <a href="https://facebook.com" target="_blank" 
+           class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition-all shadow-lg">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Facebook แอดมิน
+        </a>
+      </div>
+
+      <p class="text-xs text-gray-600 mt-6">© 2026 ANGPAO GAMING. Created for presentation.</p>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    let currentUser = JSON.parse(localStorage.getItem('angpao_user')) || null;
+
+    // อัปเดต UI หน้าเว็บตามสิทธิ์เมื่อโหลดหน้า
+    document.addEventListener('DOMContentLoaded', () => {
+      renderAuthNav();
+    });
+
+    function renderAuthNav() {
+      const authNav = document.getElementById('authNav');
+      const adminPanel = document.getElementById('adminPanel');
+      const adminOnlyElements = document.querySelectorAll('.admin-only');
+
+      if (currentUser) {
+        // กรณีล็อกอินแล้ว
+        authNav.innerHTML = `
+          <span class="text-sm text-gray-300">👤 <strong class="${currentUser.username === 'admin' ? 'text-cyber-pink' : 'text-cyber-cyan'}">${currentUser.username}</strong></span>
+          <button onclick="handleLogout()" class="bg-gray-800 hover:bg-gray-700 text-red-400 px-3 py-1.5 rounded-lg text-xs font-bold border border-red-500/30 transition-all">
+            ออกจากระบบ
+          </button>
+        `;
+
+        // ตรวจสอบว่าเป็น Admin หรือไม่
+        if (currentUser.username === 'admin') {
+          if (adminPanel) adminPanel.classList.remove('hidden');
+          adminOnlyElements.forEach(el => el.classList.remove('hidden'));
+        } else {
+          if (adminPanel) adminPanel.classList.add('hidden');
+          adminOnlyElements.forEach(el => el.classList.add('hidden'));
+        }
+      } else {
+        // กรณีไม่ได้ล็อกอิน
+        authNav.innerHTML = `
+          <button onclick="openAuthModal()" class="bg-cyber-cyan hover:bg-cyan-400 text-gray-950 px-4 py-1.5 rounded-lg text-xs font-black shadow transition-all">
+            เข้าสู่ระบบ / สมัครสมาชิก
+          </button>
+        `;
+        if (adminPanel) adminPanel.classList.add('hidden');
+        adminOnlyElements.forEach(el => el.classList.add('hidden'));
+      }
+    }
+
+    // ระบบ Login
+    function handleLogin(e) {
+      e.preventDefault();
+      const username = document.getElementById('login-username').value.trim();
+      if (!username) return;
+
+      currentUser = { username: username };
+      localStorage.setItem('angpao_user', JSON.stringify(currentUser));
+      
+      renderAuthNav();
+      closeAuthModal();
+      alert(`ยินดีต้อนรับกลับมา, ${username}!`);
+    }
+
+    // ระบบ Register (แก้ไขเพื่อไม่ให้เขียนทับข้อมูลเก่า)
+    function handleRegister(e) {
+      e.preventDefault();
+      const username = document.getElementById('reg-username').value.trim();
+      if (!username) return;
+
+      currentUser = { username: username };
+
+      // 1. ดึงข้อมูลผู้สมัครเดิมออกมา (ถ้าไม่มีให้ใช้ Array ว่าง)
+      let users = JSON.parse(localStorage.getItem('angpao_users')) || [];
+      
+      // 2. เพิ่มผู้สมัครใหม่
+      users.push(currentUser);
+
+      // 3. เซฟกลับลง localStorage
+      localStorage.setItem('angpao_users', JSON.stringify(users));
+      localStorage.setItem('angpao_user', JSON.stringify(currentUser));
+
+      renderAuthNav();
+      closeAuthModal();
+      alert(`ลงทะเบียนสำเร็จ! ยินดีต้อนรับ ${username}`);
+    }
+
+    // ระบบ Logout
+    function handleLogout() {
+      currentUser = null;
+      localStorage.removeItem('angpao_user'); // ลบเฉพาะคนปัจจุบัน รายชื่อผู้สมัครยังอยู่ครบ
+      renderAuthNav();
+      alert('ออกจากระบบเรียบร้อยแล้ว');
+    }
+
+    // ฟังก์ชันดูรายชื่อสมาชิกสำหรับ Admin
+    function viewUsersList() {
+      const usersData = localStorage.getItem('angpao_users');
+      if (!usersData) {
+        alert('ยังไม่มีข้อมูลสมาชิกในระบบ');
+        return;
+      }
+      const usersList = JSON.parse(usersData);
+      let message = '📋 รายชื่อสมาชิกที่สมัครในระบบ:\n\n';
+      usersList.forEach((u, index) => {
+        message += `${index + 1}. ชื่อผู้ใช้: ${u.username}\n`;
+      });
+      alert(message);
+    }
+
+    // ฟังก์ชันย่อยสำหรับ Modal
+    function openAuthModal() { document.getElementById('authModal').classList.remove('hidden'); }
+    function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
+    function switchAuthTab(tab) {
+      if (tab === 'login') {
+        document.getElementById('formLogin').classList.remove('hidden');
+        document.getElementById('formReg').classList.add('hidden');
+        document.getElementById('tabLogin').className = 'flex-1 pb-3 text-center font-bold border-b-2 border-cyber-cyan text-cyber-cyan';
+        document.getElementById('tabReg').className = 'flex-1 pb-3 text-center font-bold border-b-2 border-transparent text-gray-400 hover:text-gray-200';
+      } else {
+        document.getElementById('formLogin').classList.add('hidden');
+        document.getElementById('formReg').classList.remove('hidden');
+        document.getElementById('tabReg').className = 'flex-1 pb-3 text-center font-bold border-b-2 border-cyber-pink text-cyber-pink';
+        document.getElementById('tabLogin').className = 'flex-1 pb-3 text-center font-bold border-b-2 border-transparent text-gray-400 hover:text-gray-200';
+      }
+    }
+
+    // ฟังก์ชันจำลองการลบเกมสำหรับ Admin
+    function deleteGame(btn) {
+      if (confirm('คุณต้องการลบเกมนี้ใช่หรือไม่? (Admin Only)')) {
+        btn.closest('.bg-gray-900').remove();
+        alert('ลบเกมเรียบร้อยแล้ว');
+      }
+    }
+
+    // ฟังก์ชันจำลองการกดหัวใจ
+    function toggleFavorite(btn) {
+      const countSpan = btn.querySelector('.fav-count');
+      let count = parseInt(countSpan.innerText);
+      countSpan.innerText = count + 1;
+    }
+
+    // ฟังก์ชันจำลองอ่านรีวิว
+    function openReviewModal(gameTitle) {
+      alert(`คุณกำลังเปิดดูรีวิวและเขียนความคิดเห็นสำหรับเกม: ${gameTitle}`);
+    }
+  </script>
 </body>
 </html>
