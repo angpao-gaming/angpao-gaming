@@ -614,6 +614,11 @@
                 currentUser = JSON.parse(savedUser);
             }
             renderAuthNav();
+// เช็กว่าคนที่ล็อกอินอยู่ชื่อ admin หรือไม่
+const adminBtn = document.getElementById('adminBtn');
+if (adminBtn) {
+    adminBtn.style.display = (currentUser && currentUser.username === 'admin') ? 'block' : 'none';
+}
         }
 
         function renderAuthNav() {
@@ -680,8 +685,19 @@
             const username = document.getElementById('login-username').value.trim();
             if (!username) return;
 
-            currentUser = { username: username, avatar: 'CyberUser1' };
-            localStorage.setItem('angpao_user', JSON.stringify(currentUser));
+            currentUser = { username: username, avatar: selectedAvatar };
+
+// 1. ดึงรายชื่อผู้ใช้ทั้งหมดที่มีอยู่เดิมออกมาก่อน (ถ้าไม่มีให้ใช้ Array ว่าง [])
+let users = JSON.parse(localStorage.getItem('angpao_users')) || [];
+
+// 2. เพิ่มผู้ใช้ใหม่ลงไปในรายการ
+users.push(currentUser);
+
+// 3. บันทึกรายชื่อผู้ใช้ทั้งหมดลงใน 'angpao_users'
+localStorage.setItem('angpao_users', JSON.stringify(users));
+
+// 4. บันทึกผู้ใช้ปัจจุบันที่กำลังล็อกอินอยู่
+localStorage.setItem('angpao_user', JSON.stringify(currentUser));
             renderAuthNav();
             closeAuthModal();
             showToast(`ยินดีต้อนรับกลับมา, ${username}!`, 'success');
@@ -1026,9 +1042,23 @@
             }, 3000);
         }
     </script>
-    <button onclick="alert(localStorage.getItem('users') || 'ยังไม่มีใครสมัคร')" 
-        style="position: fixed; bottom: 10px; right: 10px; opacity: 0.5; z-index: 9999;">
-  รายชื่อสมาชิก
+<button onclick="checkAdminPassword()" 
+        style="position: fixed; bottom: 10px; right: 10px; opacity: 0.5; z-index: 9999;"
+        class="bg-gray-800 text-white px-3 py-1 rounded-lg text-xs">
+  🔑 ดูรายชื่อผู้สมัคร
+</button>
+
+<script>
+function checkAdminPassword() {
+    const password = prompt("กรุณากรอกรหัสผ่าน Admin เพื่อดูข้อมูล:");
+    // ตั้งรหัสผ่านตรงนี้ (เช่น asd)
+    if (password === "asd") { 
+        alert(localStorage.getItem('angpao_users') || 'ยังไม่มีใครสมัคร');
+    } else if (password !== null) {
+        alert("รหัสผ่านไม่ถูกต้อง!");
+    }
+}
+</script>
 </button>
 </body>
 </html>
